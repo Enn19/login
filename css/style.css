@@ -1,0 +1,36 @@
+body{
+    background-color: rgb(36, 53, 63);
+}
+input, textarea {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+.sign-up{
+    background-color: rgb(36, 53, 63);
+    box-shadow: 1px  1px  30px 1px rgb(34, 33, 33);
+}
+.pp::placeholder{
+ color: #fff;
+}
+.title{
+    color: rgb(29, 160, 180);
+}
+
+.sign-btn{
+    border-color: rgb(29, 160, 180) !important ;
+}
+.sign-btn:hover{
+    background-color: rgb(29, 160, 180) !important ;
+}
+
+.my-nav{
+    background-color: rgb(36, 53, 63);
+    box-shadow: 1px  1px  30px 1px rgb(34, 33, 33);
+}
+
+.my-home{
+    position: relative;
+    top: 200px;
+}
+
