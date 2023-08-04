@@ -1,30 +1,20 @@
 var userNameInput = document.getElementById('userName');
 var userEmailInput = document.getElementById('userEmail');
 var userPasswordInput = document.getElementById('userPassword');
-
 var loginEmailInput=document.getElementById('loginEmail');
 var loginPasswordInput =document.getElementById('loginPassword');
-var loginEmail;
-var loginPassword;
-
-var mainIndex=0;
-
-
-var oldEmail;
-var oldPass;
-
-
 
 var userContainer =[];
 
-function cheakUserInfo(){
+//LOCAL STORAGE//
     if(localStorage.getItem('userData')!=null){
         userContainer=JSON.parse(localStorage.getItem("userData"));
+    }else{
+        userContainer=[];
     }
-    
-}
-cheakUserInfo();
 
+
+//TO ADD USER IN SUGN UP///
 function addUser(){
 
     if(validation(regexName,userNameInput.value)==true && validation(regexEmail,userEmailInput.value)==true && validation(regexPassword,userPasswordInput.value)==true){
@@ -33,58 +23,38 @@ function addUser(){
             email:userEmailInput.value,
             password:userPasswordInput.value
         }
-
-        oldEmail=userEmailInput.value;
-        oldPass=userPasswordInput.value;
-        
-        if(searchOldUser(oldEmail,oldPass)){
-            console.log("wright")
+        userContainer.push(user);
+        localStorage.setItem("userData",JSON.stringify(userContainer));
+        document.querySelector('#success').classList.replace('d-none', 'd-block');
+        clearForm();
         }
-        else{
-            userContainer.push(user);
-            localStorage.setItem("userData",JSON.stringify(userContainer));
-            document.querySelector('#success').classList.replace('d-none', 'd-block');
-            console.log(userContainer);
+         else{
+        alert("wrong validation");
         }
 
+    }
+
+    // TO DO LOGIN BY USER
+function logIn(){
+    if (loginEmailInput.value =="" || loginPasswordInput.value =="") {
+        alert("user not found")
     }
     else{
-        alert("wrong validation")
-    }
-    clearForm()
-}
-
-function searchOldUser(email , password ){
-
-    for(var i=0;i<userContainer.length;i++){
-        if(userContainer[i].email.includes(email)==true && userContainer[i].password.includes(password)==true){
-            alert("user is already exist");
-            break;
-        }
+        searchUser();
     }
 }
 
-console.log(userContainer);
 
 
-
-function logIn(){
-    loginEmail=loginEmailInput.value;
-    loginPassword=loginPasswordInput.value;
-    console.log(loginEmail+"  "+loginPassword);
-    searchUser(loginEmail,loginPassword);
-}
-
-
-
-function searchUser(email , password ){
+function searchUser(){
 
     for(var i=0;i<userContainer.length;i++){
-        if(userContainer[i].email.includes(email)==true && userContainer[i].password.includes(password)==true){
-            mainIndex=i;
-
+        if(loginEmailInput.value ==userContainer[i].email && loginPasswordInput.value == userContainer[i].password){
+            var nam =userContainer[i].name;
+            localStorage.setItem("name",nam)
             window.location.href='home.html'
-            console.log(mainIndex)
+            clearForm()
+            break;
 
         }
 
@@ -92,7 +62,7 @@ function searchUser(email , password ){
 
 }
 
-
+//CLEAR FORM
 
 function clearForm(){
     userNameInput.value="";
@@ -100,16 +70,12 @@ function clearForm(){
     userPasswordInput.value="";
 }
 
+//LOGOUT
 function logOut(){
     window.location.href='index.html';
 }
 
-
-
-
-
-
-
+//VALIDATION 
 
 function validation(regex,input){
     return regex.test(input)
@@ -119,21 +85,18 @@ var regexName=/^[a-z]\w{2,20}$/;
 var regexEmail=/^[a-z]\w{3,15}@\w{3,10}(\.[a-z]{2,7}){1,3}$/;
 var regexPassword=/^\d{6,}$/;
 
+// DISPLAY IN HOME
 
-/************************************ */
-
-
-
-function display(index){
+function display(){
     var cartona=`
         <div class="sign-up text-center w-50  mx-auto py-5 px-5 ">
-        <H1 class="mb-4 title">${'Welcome'+' '+ userContainer[index].name}</H1>
+        <H1 class="mb-4 title">${'Welcome'+' '+localStorage.getItem("name")}</H1>
     
         </div>`;
     
     document.getElementById('my-home').innerHTML=cartona;
 }
-display(mainIndex);
+display();
 
 
 
